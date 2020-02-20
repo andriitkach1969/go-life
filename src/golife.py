@@ -1,4 +1,5 @@
-from src.libs import Earth
+from src.Earth import Earth
+from src.Moore import Moore
 import tkinter
 from datetime import datetime
 
@@ -26,7 +27,9 @@ if __name__ == "__main__":
     canv = tkinter.Canvas(root, width=ARRAY_SIZE_ROW*VISUAL_SCALE, height=ARRAY_SIZE_COLUMN*VISUAL_SCALE, bg="black")
     canv.pack()
 
-    arr = Earth(ARRAY_SIZE_ROW, ARRAY_SIZE_COLUMN)
+    earthRule = Moore()
+
+    arr = Earth(ARRAY_SIZE_ROW, ARRAY_SIZE_COLUMN, earthRule)
     arr.init_life(DENCITY)
 
     while True:
