@@ -42,6 +42,7 @@ class Earth:
         return res
 
     def get_neighbors_count(self, row_pos, row_column, method):
+
         neighbors = self.get_neighbors(row_pos, row_column, method)
         count = 0
         for item in neighbors:
@@ -55,14 +56,11 @@ class Earth:
             for j in range(self.ColumnSize):
 
                 current_neighbors = self.get_neighbors_count(i, j, "moore")
-                if not self.get(i, j):
-                    if current_neighbors == 3:
-                        self.set(i, j)
-                else:
-                    if current_neighbors == 2 or current_neighbors == 3:
-                        pass
-                    else:
-                        self.unset(i, j)
+                alive = self.get(i, j)
+                if alive and (current_neighbors < 2 or current_neighbors > 3):
+                    self.unset(i, j)
+                if not alive and current_neighbors == 3:
+                    self.set(i, j)
 
     def print_generation(self):
         for i in range(self.RowSize):
