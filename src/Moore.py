@@ -1,8 +1,7 @@
+from src.Constants import IS_SUITABLE, IS_PLEASURE, IS_UNPLEASURE
+
 IS_DESERT = 3
-IS_CROWD = 2
-IS_SUITABLE = 1
-IS_UNPLEASURE = 0
-IS_PLEASURE = 1
+
 
 class Moore:
 
