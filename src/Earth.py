@@ -22,16 +22,12 @@ class Earth:
         self.delay = 100
         self.__init_life()
 
-    def delay_increase(self, event):
+    def delay_increase(self):
         self.delay += self.DELAY_STEP
-        print(event.keysym)
-        print(self.delay)
 
-    def delay_decrease(self, event):
+    def delay_decrease(self):
         if self.delay > 0:
             self.delay -= self.DELAY_STEP
-        print(event.keysym)
-        print(self.delay)
 
     def get(self, row_pos, column_pos):
         row_pos = row_pos % self.RowSize
