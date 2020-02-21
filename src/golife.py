@@ -5,7 +5,7 @@ from src.Moore import Moore
 
 import tkinter
 
-DENCITY = 13
+DENCITY = 11
 VISUAL_SCALE = 10
 ARRAY_SIZE_ROW = 50
 ARRAY_SIZE_COLUMN = 50
