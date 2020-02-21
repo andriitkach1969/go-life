@@ -2,7 +2,7 @@ from array import array
 import random
 from tkinter import Canvas
 
-from src.Moore import IS_PLEASURE, IS_UNPLEASURE
+from src.Constants import IS_PLEASURE, IS_UNPLEASURE
 
 
 class Earth:
@@ -18,8 +18,7 @@ class Earth:
         self.dencity = dencity
         self.MyArray = array('H', (False for s in range(self.RowSize * self.ColumnSize)))
         self.init_life(dencity)
-        self.canvas = Canvas(root)
-        self.rectangle = self.canvas.create_rectangle(1, 1, self.RowSize, self.ColumnSize * self.Scale, fill="black")
+        self.canvas = Canvas(root, width=self.RowSize*self.Scale, height=self.ColumnSize*self.Scale, bg="black")
         self.canvas.pack()
         self.next_move()
 
