@@ -54,7 +54,7 @@ class Earth:
         for i in range(self.RowSize):
             for j in range(self.ColumnSize):
                 alive = self.get(i, j)
-                comfort_level = self.lifeRule.get_comfort_level();
+                comfort_level = self.lifeRule.get_comfort_level(self.MyArray, self.RowSize, self.ColumnSize, i, j);
                 if alive and comfort_level == IS_UNPLEASURE:
                     self.unset(i, j)
                 if not alive and comfort_level == IS_PLEASURE:
