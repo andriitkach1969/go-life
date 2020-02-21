@@ -3,6 +3,7 @@ IS_OK = 0
 IS_DESERT = 1
 IS_CROWD = 2
 
+
 class Moore:
 
     def __init__(self):
@@ -30,7 +31,7 @@ class Moore:
             return IS_DESERT
         elif count > 3:
             return IS_CROWD
-        else:
+        elif count == 3:
             return IS_OK
 
     def get_comfort_level(self, array, nsize, msize, i, j):

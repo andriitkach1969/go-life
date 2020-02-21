@@ -6,61 +6,68 @@ from src.Constants import IS_PLEASURE, IS_UNPLEASURE
 
 
 class Earth:
+    DELAY_STEP = 10
 
-    MyArray = array('H')
-
-    def __init__(self, nsize, msize, scale, dencity, lifeRule = None, root = None):
+    def __init__(self, nsize, msize, scale, dencity=None, lifeRule=None, root=None):
         self.root = root
         self.lifeRule = lifeRule
         self.RowSize = nsize
         self.ColumnSize = msize
         self.Scale = scale
         self.dencity = dencity
+        self.drawArray = []
         self.MyArray = array('H', (False for s in range(self.RowSize * self.ColumnSize)))
-        self.init_life(dencity)
         self.canvas = Canvas(root, width=self.RowSize*self.Scale, height=self.ColumnSize*self.Scale, bg="black")
         self.canvas.pack()
-        self.next_move()
+        self.delay = 100
+        self.__init_life()
+
+    def delay_increase(self, event):
+        self.delay += self.DELAY_STEP
+        print(event.keysym)
+        print(self.delay)
+
+    def delay_decrease(self, event):
+        if self.delay > 0:
+            self.delay -= self.DELAY_STEP
+        print(event.keysym)
+        print(self.delay)
 
     def get(self, row_pos, column_pos):
         row_pos = row_pos % self.RowSize
         column_pos = column_pos % self.ColumnSize
         return self.MyArray[row_pos * self.ColumnSize + column_pos]
 
-    def set(self, row_pos, column_pos):
+    def __set(self, row_pos, column_pos):
         self.MyArray[row_pos * self.ColumnSize + column_pos] = True
+        self.canvas.itemconfigure(self.drawArray[row_pos * self.ColumnSize + column_pos], fill='yellow')
 
-    def unset(self, row_pos, column_pos):
+    def __unset(self, row_pos, column_pos):
         self.MyArray[row_pos * self.ColumnSize + column_pos] = False
+        self.canvas.itemconfigure(self.drawArray[row_pos * self.ColumnSize + column_pos], fill='black')
 
-    def init_life(self, density):
+    def __init_life(self):
         for i in range(self.RowSize):
             for j in range(self.ColumnSize):
-                if random.randint(1, density) == density:
-                    self.set(i, j)
-
-    def draw_earth(self):
-
+                self.drawArray.append(self.canvas.create_oval(
+                    i * self.Scale, j * self.Scale,
+                    i * self.Scale + self.Scale,
+                    j * self.Scale + self.Scale, fill='black'))
         for i in range(self.RowSize):
             for j in range(self.ColumnSize):
-                color = 'black'
-                if self.get(i, j):
-                    color = 'yellow'
-                self.canvas.create_oval(i * self.Scale, j * self.Scale, i * self.Scale + self.Scale,
-                                 j * self.Scale + self.Scale, fill=color)
-        self.canvas.update()
+                if random.randint(1, self.dencity) == self.dencity:
+                    self.__set(i, j)
 
-    def next_generation(self):
+    def __next_generation(self):
         for i in range(self.RowSize):
             for j in range(self.ColumnSize):
                 alive = self.get(i, j)
-                comfort_level = self.lifeRule.get_comfort_level(self.MyArray, self.RowSize, self.ColumnSize, i, j);
+                comfort_level = self.lifeRule.get_comfort_level(self, self.RowSize, self.ColumnSize, i, j)
                 if alive and comfort_level == IS_UNPLEASURE:
-                    self.unset(i, j)
+                    self.__unset(i, j)
                 if not alive and comfort_level == IS_PLEASURE:
-                    self.set(i, j)
+                    self.__set(i, j)
 
     def next_move(self):
-        self.next_generation()
-        self.draw_earth()
-        self.canvas.after(100, self.next_move())
+        self.__next_generation()
+        self.canvas.after(self.delay, self.next_move)
