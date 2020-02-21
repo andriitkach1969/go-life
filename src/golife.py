@@ -1,40 +1,26 @@
-from src.libs import Earth
+import sys
+
+from src.Earth import Earth
+from src.Moore import Moore
+
 import tkinter
-from datetime import datetime
 
-
-DENCITY = 2
-VISUAL_SCALE = 7
-ARRAY_SIZE_ROW = 20
-ARRAY_SIZE_COLUMN = 20
-
-
-def drawEarth():
-
-    for i in range(ARRAY_SIZE_ROW):
-        for j in range(ARRAY_SIZE_COLUMN):
-            color = 'black'
-            if arr.get(i, j):
-                color = 'yellow'
-            canv.create_oval(i * VISUAL_SCALE, j * VISUAL_SCALE, i * VISUAL_SCALE + VISUAL_SCALE, j * VISUAL_SCALE + VISUAL_SCALE, fill = color)
-    canv.update()
+DENCITY = 13
+VISUAL_SCALE = 10
+ARRAY_SIZE_ROW = 50
+ARRAY_SIZE_COLUMN = 50
 
 
 if __name__ == "__main__":
 
     root = tkinter.Tk()
-    canv = tkinter.Canvas(root, width=ARRAY_SIZE_ROW*VISUAL_SCALE, height=ARRAY_SIZE_COLUMN*VISUAL_SCALE, bg="black")
-    canv.pack()
 
-    arr = Earth(ARRAY_SIZE_ROW, ARRAY_SIZE_COLUMN)
-    arr.init_life(DENCITY)
+    earthRule = Moore()
+    arr = Earth(ARRAY_SIZE_ROW, ARRAY_SIZE_COLUMN, VISUAL_SCALE, DENCITY, earthRule, root)
 
-    while True:
-        start_time = datetime.now()
-        arr.next_generation()
-        delta_1 = datetime.now() - start_time
+    root.bind("<KeyPress-Left>", lambda e: sys.exit(0))
+    root.bind("<KeyPress-Up>", lambda e: arr.delay_increase())
+    root.bind("<KeyPress-Down>", lambda e: arr.delay_decrease())
 
-        start_time = datetime.now()
-        drawEarth()
-        delta_2 = datetime.now() - start_time
-        print('delta Generate: ', delta_1, '\t delta Canvas: ', delta_2)
+    arr.next_move()
+    root.mainloop()
