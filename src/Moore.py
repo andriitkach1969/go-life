@@ -32,7 +32,7 @@ class Moore:
         for item in neighbors:
             if item:
                 count += 1
-        if count < 2:
+        if count < 3:
             return IS_DESERT
         elif count > 3:
             return IS_CROWD

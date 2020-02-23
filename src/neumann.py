@@ -30,10 +30,12 @@ class Neumann:
         for item in neighbors:
             if item:
                 count += 1
-        if count == 1:
-            return IS_OK
-        else:
+        if count < 3:
+            return IS_DESERT
+        elif count > 3:
             return IS_CROWD
+        elif count == 3:
+            return IS_OK
 
     def get_comfort_level(self, arr, nsize, msize, current_i, current_j):
         self.nsize = nsize
