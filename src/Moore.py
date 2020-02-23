@@ -13,16 +13,16 @@ class Moore:
         self.row_pos = 0
         self.column_pos = 0
 
-    def __get_neighbors(self, arr):
+    def __get_neighbors(self, arr, current_i, current_j):
         res = []
 
         for i in range(-1, 2, 1):
             for j in range(-1, 2, 2 - abs(i)):
-                res.append(arr.get(self.row_pos + i, self.column_pos + j))
+                res.append(arr.get(current_i + i, current_j + j))
         return res
 
-    def __get_neighbors_state(self, arr):
-        neighbors = self.__get_neighbors(arr)
+    def __get_neighbors_state(self, arr, current_i, current_j):
+        neighbors = self.__get_neighbors(arr, current_i, current_j)
         count = 0
         for item in neighbors:
             if item:
@@ -34,12 +34,10 @@ class Moore:
         elif count == 3:
             return IS_OK
 
-    def get_comfort_level(self, arr, nsize, msize, i, j):
-        self.row_pos = i
-        self.column_pos = j
+    def get_comfort_level(self, arr, nsize, msize, current_i, current_j):
         self.nsize = nsize
         self.msize = msize
-        state = self.__get_neighbors_state(arr)
+        state = self.__get_neighbors_state(arr, current_i, current_j)
         if state == IS_OK:
             return IS_PLEASURE
         elif state == IS_CROWD or state == IS_DESERT:
