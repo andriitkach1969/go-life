@@ -19,7 +19,7 @@ class Earth:
         self.MyArray = array('H', (False for s in range(self.RowSize * self.ColumnSize)))
         self.canvas = Canvas(root, width=self.RowSize*self.Scale, height=self.ColumnSize*self.Scale, bg="black")
         self.canvas.pack()
-        self.delay = 100
+        self.delay = 10
         self.__init_life()
 
     def delay_increase(self):
@@ -58,7 +58,7 @@ class Earth:
         for i in range(self.RowSize):
             for j in range(self.ColumnSize):
                 alive = self.get(i, j)
-                comfort_level = self.lifeRule.get_comfort_level(self, self.RowSize, self.ColumnSize, i, j)
+                comfort_level = self.lifeRule(self, self.RowSize, self.ColumnSize, i, j)
                 if alive and comfort_level == IS_UNPLEASURE:
                     self.__unset(i, j)
                 if not alive and comfort_level == IS_PLEASURE:
